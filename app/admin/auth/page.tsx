@@ -31,7 +31,7 @@ export default function AdminAuthPage() {
 
     try {
       // Simulate login - replace with actual auth logic
-      if (email === "sangluonganm@gmail.com" && password === "xuanlam@98") {
+      if (email === "xuanlam@gmail.com" && password === "xuanlam@98") {
         // Set cookie instead of localStorage for middleware to work
         document.cookie = "admin_logged_in=true; path=/; max-age=86400" // 24 hours
 
