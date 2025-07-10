@@ -1,11 +1,28 @@
 import { type NextRequest, NextResponse } from "next/server"
-import { AuthService } from "@/lib/auth"
+import { getUserById, updateUser, deleteUser, hasPermission } from "@/lib/auth"
+import { cookies } from "next/headers"
+
+async function getSessionUser() {
+  const cookieStore = await cookies()
+  const session = cookieStore.get("admin-session")
+  if (!session) return null
+
+  try {
+    return JSON.parse(session.value)
+  } catch {
+    return null
+  }
+}
 
 export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params
-    const user = await AuthService.getUserById(id)
+    const sessionUser = await getSessionUser()
+    if (!sessionUser || !hasPermission(sessionUser.role, "manage_users")) {
+      return NextResponse.json({ error: "Không có quyền truy cập" }, { status: 403 })
+    }
 
+    const user = await getUserById(id)
     if (!user) {
       return NextResponse.json({ error: "Không tìm thấy người dùng" }, { status: 404 })
     }
@@ -13,29 +30,20 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
     return NextResponse.json({ user })
   } catch (error) {
     console.error("Get user error:", error)
-    return NextResponse.json({ error: "Không thể lấy thông tin người dùng" }, { status: 500 })
+    return NextResponse.json({ error: "Lỗi server" }, { status: 500 })
   }
 }
 
 export async function PUT(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params
+    const sessionUser = await getSessionUser()
+    if (!sessionUser || !hasPermission(sessionUser.role, "manage_users")) {
+      return NextResponse.json({ error: "Không có quyền truy cập" }, { status: 403 })
+    }
+
     const userData = await request.json()
-
-    // Validate email format if provided
-    if (userData.email) {
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-      if (!emailRegex.test(userData.email)) {
-        return NextResponse.json({ error: "Email không hợp lệ" }, { status: 400 })
-      }
-    }
-
-    // Validate password strength if provided
-    if (userData.password && userData.password.length < 6) {
-      return NextResponse.json({ error: "Mật khẩu phải có ít nhất 6 ký tự" }, { status: 400 })
-    }
-
-    const user = await AuthService.updateUser(id, userData)
+    const user = await updateUser(id, userData)
 
     if (!user) {
       return NextResponse.json({ error: "Không tìm thấy người dùng" }, { status: 404 })
@@ -44,32 +52,26 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
     return NextResponse.json({ user })
   } catch (error) {
     console.error("Update user error:", error)
-
-    if (error instanceof Error) {
-      return NextResponse.json({ error: error.message }, { status: 400 })
-    }
-
-    return NextResponse.json({ error: "Không thể cập nhật người dùng" }, { status: 500 })
+    return NextResponse.json({ error: "Lỗi server" }, { status: 500 })
   }
 }
 
 export async function DELETE(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params
-    const success = await AuthService.deleteUser(id)
+    const sessionUser = await getSessionUser()
+    if (!sessionUser || !hasPermission(sessionUser.role, "manage_users")) {
+      return NextResponse.json({ error: "Không có quyền truy cập" }, { status: 403 })
+    }
 
+    const success = await deleteUser(id)
     if (!success) {
-      return NextResponse.json({ error: "Không tìm thấy người dùng" }, { status: 404 })
+      return NextResponse.json({ error: "Không thể xóa người dùng" }, { status: 400 })
     }
 
     return NextResponse.json({ success: true })
   } catch (error) {
     console.error("Delete user error:", error)
-
-    if (error instanceof Error) {
-      return NextResponse.json({ error: error.message }, { status: 400 })
-    }
-
-    return NextResponse.json({ error: "Không thể xóa người dùng" }, { status: 500 })
+    return NextResponse.json({ error: "Lỗi server" }, { status: 500 })
   }
 }

@@ -2,20 +2,42 @@
 
 import { Button } from "@/components/ui/button"
 import { LogOut } from "lucide-react"
+import { useRouter } from "next/navigation"
+import { useState } from "react"
 
-export function LogoutButton() {
-  const handleLogout = () => {
-    // Clear the admin cookie
-    document.cookie = "admin_logged_in=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT"
+export default function LogoutButton() {
+  const router = useRouter()
+  const [loading, setLoading] = useState(false)
 
-    // Redirect to login
-    window.location.href = "/admin/auth"
+  const handleLogout = async () => {
+    setLoading(true)
+    try {
+      const response = await fetch("/api/auth/logout", {
+        method: "POST",
+        credentials: "include",
+      })
+
+      if (response.ok) {
+        router.push("/admin/auth")
+        router.refresh()
+      }
+    } catch (error) {
+      console.error("Logout error:", error)
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
-    <Button variant="outline" onClick={handleLogout} className="flex items-center bg-transparent">
+    <Button
+      variant="ghost"
+      size="sm"
+      onClick={handleLogout}
+      disabled={loading}
+      className="text-gray-600 hover:text-gray-900 hover:bg-gray-100"
+    >
       <LogOut className="h-4 w-4 mr-2" />
-      Đăng xuất
+      {loading ? "Đang đăng xuất..." : "Đăng xuất"}
     </Button>
   )
 }

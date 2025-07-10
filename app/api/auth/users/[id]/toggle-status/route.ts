@@ -1,11 +1,28 @@
 import { type NextRequest, NextResponse } from "next/server"
-import { AuthService } from "@/lib/auth"
+import { toggleUserStatus, hasPermission } from "@/lib/auth"
+import { cookies } from "next/headers"
+
+async function getSessionUser() {
+  const cookieStore = await cookies()
+  const session = cookieStore.get("admin-session")
+  if (!session) return null
+
+  try {
+    return JSON.parse(session.value)
+  } catch {
+    return null
+  }
+}
 
 export async function POST(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params
-    const user = await AuthService.toggleUserStatus(id)
+    const sessionUser = await getSessionUser()
+    if (!sessionUser || !hasPermission(sessionUser.role, "manage_users")) {
+      return NextResponse.json({ error: "Không có quyền truy cập" }, { status: 403 })
+    }
 
+    const user = await toggleUserStatus(id)
     if (!user) {
       return NextResponse.json({ error: "Không tìm thấy người dùng" }, { status: 404 })
     }
@@ -13,11 +30,6 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
     return NextResponse.json({ user })
   } catch (error) {
     console.error("Toggle user status error:", error)
-
-    if (error instanceof Error) {
-      return NextResponse.json({ error: error.message }, { status: 400 })
-    }
-
-    return NextResponse.json({ error: "Không thể thay đổi trạng thái người dùng" }, { status: 500 })
+    return NextResponse.json({ error: "Lỗi server" }, { status: 500 })
   }
 }

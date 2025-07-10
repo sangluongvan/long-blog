@@ -428,8 +428,7 @@ export default function HomePage() {
 
           <div className="border-t border-gray-700 mt-12 pt-8 text-center">
             <p className="text-gray-400">
-              &copy; 2024 Blog của Long. Được làm với <span className="text-red-400 animate-pulse">❤️</span> cho những
-              người yêu mèo.
+              &copy; 2024 Blog của Long. Được làm bởi <span className="text-red-400 animate-pulse">❤️</span> Xuân
             </p>
           </div>
         </div>
