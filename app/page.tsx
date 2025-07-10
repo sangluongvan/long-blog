@@ -115,7 +115,7 @@ export default function HomePage() {
             <div className="mb-8 relative">
               <div className="absolute inset-0 bg-gradient-to-r from-orange-200 to-pink-200 rounded-full blur-3xl opacity-30 animate-pulse"></div>
               <Image
-                src="/images/Longmeo.jpg"
+                src="/placeholder.svg?height=350&width=350"
                 alt="Long - Chú mèo đáng yêu"
                 width={350}
                 height={350}
@@ -428,7 +428,8 @@ export default function HomePage() {
 
           <div className="border-t border-gray-700 mt-12 pt-8 text-center">
             <p className="text-gray-400">
-              &copy; 2025 Blog của Long. Được làm bởi <span className="text-red-400 animate-pulse">❤️</span> Xuân
+              &copy; 2024 Blog của Long. Được làm với <span className="text-red-400 animate-pulse">❤️</span> cho những
+              người yêu mèo.
             </p>
           </div>
         </div>

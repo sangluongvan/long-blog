@@ -25,27 +25,27 @@ export default function AboutPage() {
 
   const timeline = [
     {
-      date: "Tháng 3, 2024",
+      date: "Tháng 3, 2022",
       title: "Long được sinh ra",
       description: "Chào đời tại một trang trại nhỏ ở ngoại thành",
     },
     {
-      date: "Tháng 5, 2024",
+      date: "Tháng 5, 2022",
       title: "Về nhà mới",
       description: "Được gia đình chúng tôi nhận nuôi khi 2 tháng tuổi",
     },
     {
-      date: "Tháng 7, 2024",
+      date: "Tháng 7, 2022",
       title: "Lần đầu đi khám bác sĩ",
       description: "Tiêm phòng và kiểm tra sức khỏe định kỳ",
     },
     {
-      date: "Tháng 12, 2024",
+      date: "Tháng 12, 2022",
       title: "Sinh nhật đầu tiên",
       description: "Tổ chức sinh nhật với bánh cá và đồ chơi mới",
     },
     {
-      date: "Tháng 6, 2024",
+      date: "Tháng 6, 2023",
       title: "Học được nhiều kỹ năng",
       description: "Biết sử dụng cây cào và toilet riêng",
     },

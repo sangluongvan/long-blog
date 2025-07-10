@@ -89,7 +89,7 @@ export default function AdminDashboard() {
       status: "published",
       views: 234,
       likes: 45,
-      date: "2025-07-08",
+      date: "2024-01-15",
       category: "Đồ chơi",
       featured_image: "/placeholder.svg?height=60&width=80",
     },
@@ -99,7 +99,7 @@ export default function AdminDashboard() {
       status: "published",
       views: 567,
       likes: 89,
-      date: "2025-07-08",
+      date: "2024-01-10",
       category: "Kỷ niệm",
       featured_image: "/placeholder.svg?height=60&width=80",
     },
@@ -109,7 +109,7 @@ export default function AdminDashboard() {
       status: "draft",
       views: 0,
       likes: 0,
-      date: "2025-07-08",
+      date: "2024-01-08",
       category: "Huấn luyện",
       featured_image: "/placeholder.svg?height=60&width=80",
     },
@@ -119,7 +119,7 @@ export default function AdminDashboard() {
       status: "published",
       views: 189,
       likes: 67,
-      date: "2025-07-08",
+      date: "2024-01-05",
       category: "Hài hước",
       featured_image: "/placeholder.svg?height=60&width=80",
     },
@@ -137,6 +137,7 @@ export default function AdminDashboard() {
     { id: "dashboard", label: "Dashboard", icon: BarChart3, badge: null },
     { id: "posts", label: "Bài viết", icon: FileText, badge: "24" },
     { id: "media", label: "Thư viện", icon: ImageIcon, badge: "156" },
+    { id: "users", label: "Người dùng", icon: Users, badge: null }, // Thêm dòng này
     { id: "analytics", label: "Thống kê", icon: Activity, badge: null },
     { id: "settings", label: "Cài đặt", icon: Settings, badge: null },
   ]
@@ -645,6 +646,20 @@ export default function AdminDashboard() {
               <Link href="/admin/media">
                 <Plus className="mr-2 h-4 w-4" />
                 Đi tới thư viện
+              </Link>
+            </Button>
+          </div>
+        )
+      case "users":
+        return (
+          <div className="text-center py-20">
+            <Users className="mx-auto h-16 w-16 text-gray-400 mb-4" />
+            <h3 className="text-xl font-semibold text-gray-900 mb-2">Quản lý người dùng</h3>
+            <p className="text-gray-600 mb-6">Tạo và quản lý tài khoản admin</p>
+            <Button className="bg-gradient-to-r from-blue-500 to-purple-500" asChild>
+              <Link href="/admin/users">
+                <Users className="mr-2 h-4 w-4" />
+                Đi tới quản lý người dùng
               </Link>
             </Button>
           </div>

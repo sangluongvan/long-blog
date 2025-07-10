@@ -14,8 +14,8 @@ const mockPosts = [
     status: "published",
     tags: ["Long", "Kỷ niệm"],
     author: "Admin",
-    created_at: "2025-01-15T00:00:00Z",
-    updated_at: "2025-01-15T00:00:00Z",
+    created_at: "2024-01-15T00:00:00Z",
+    updated_at: "2024-01-15T00:00:00Z",
   },
 ]
 

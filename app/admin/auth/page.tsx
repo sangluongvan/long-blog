@@ -30,15 +30,21 @@ export default function AdminAuthPage() {
     setIsLoading(true)
 
     try {
-      // Simulate login - replace with actual auth logic
-      if (email === "xuanlam@gmail.com" && password === "xuanlam@98") {
-        // Set cookie instead of localStorage for middleware to work
-        document.cookie = "admin_logged_in=true; path=/; max-age=86400" // 24 hours
+      const response = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      })
 
+      const data = await response.json()
+
+      if (response.ok && data.success) {
         // Redirect to admin dashboard
         window.location.href = "/admin"
       } else {
-        alert("Email hoặc mật khẩu không đúng!")
+        alert(data.error || "Đăng nhập thất bại!")
       }
     } catch (error) {
       console.error("Login error:", error)
@@ -61,14 +67,13 @@ export default function AdminAuthPage() {
         <CardContent>
           <form onSubmit={handleLogin} className="space-y-4">
             <div>
-              <Label htmlFor="
-">Email</Label>
+              <Label htmlFor="email">Email</Label>
               <Input
-                id="Email"
+                id="email"
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="xuanlam@gmail.com"
+                placeholder="admin@longblog.com"
                 required
               />
             </div>
@@ -99,11 +104,13 @@ export default function AdminAuthPage() {
             </Button>
           </form>
 
-          {/*<div className="mt-6 p-4 bg-gray-50 rounded-lg">*/}
-          {/*  <p className="text-sm text-gray-600 mb-2">Demo credentials:</p>*/}
-          {/*  <p className="text-sm font-mono">User: xuanlam</p>*/}
-          {/*  <p className="text-sm font-mono">Password: xuanlam@98</p>*/}
-          {/*</div>*/}
+          <div className="mt-6 p-4 bg-gray-50 rounded-lg">
+            <p className="text-sm text-gray-600 mb-2">Demo credentials:</p>
+            <div className="space-y-1">
+              <p className="text-sm font-mono">Admin: admin@longblog.com / admin123</p>
+              <p className="text-sm font-mono">Editor: editor@longblog.com / editor123</p>
+            </div>
+          </div>
         </CardContent>
       </Card>
     </div>
