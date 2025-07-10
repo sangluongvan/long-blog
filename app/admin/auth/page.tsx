@@ -31,7 +31,7 @@ export default function AdminAuthPage() {
 
     try {
       // Simulate login - replace with actual auth logic
-      if (email === "admin@longblog.com" && password === "admin123") {
+      if (email === "sangluonganm@gmail.com" && password === "xuanlam@98") {
         // Set cookie instead of localStorage for middleware to work
         document.cookie = "admin_logged_in=true; path=/; max-age=86400" // 24 hours
 
@@ -61,13 +61,14 @@ export default function AdminAuthPage() {
         <CardContent>
           <form onSubmit={handleLogin} className="space-y-4">
             <div>
-              <Label htmlFor="user">User</Label>
+              <Label htmlFor="
+">Email</Label>
               <Input
-                id="User"
-                type="User"
+                id="Email"
+                type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="xuanlam"
+                placeholder="xuanlam@gmail.com"
                 required
               />
             </div>
@@ -98,11 +99,11 @@ export default function AdminAuthPage() {
             </Button>
           </form>
 
-          <div className="mt-6 p-4 bg-gray-50 rounded-lg">
-            <p className="text-sm text-gray-600 mb-2">Demo credentials:</p>
-            <p className="text-sm font-mono">User: xuanlam</p>
-            <p className="text-sm font-mono">Password: xuanlam@98</p>
-          </div>
+          {/*<div className="mt-6 p-4 bg-gray-50 rounded-lg">*/}
+          {/*  <p className="text-sm text-gray-600 mb-2">Demo credentials:</p>*/}
+          {/*  <p className="text-sm font-mono">User: xuanlam</p>*/}
+          {/*  <p className="text-sm font-mono">Password: xuanlam@98</p>*/}
+          {/*</div>*/}
         </CardContent>
       </Card>
     </div>
