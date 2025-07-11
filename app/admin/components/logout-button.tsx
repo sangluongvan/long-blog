@@ -20,6 +20,9 @@ export default function LogoutButton() {
       if (response.ok) {
         router.push("/admin/auth")
         router.refresh()
+      } else {
+        const data = await response.json()
+        alert(data.error || "Đăng xuất thất bại.")
       }
     } catch (error) {
       console.error("Logout error:", error)
@@ -37,7 +40,17 @@ export default function LogoutButton() {
       className="text-gray-600 hover:text-gray-900 hover:bg-gray-100"
     >
       <LogOut className="h-4 w-4 mr-2" />
-      {loading ? "Đang đăng xuất..." : "Đăng xuất"}
+      {loading ? (
+          <>
+            <div className="animate-spin h-4 w-4 mr-2 border-b-2 border-gray-600 rounded-full" />
+            Đang đăng xuất...
+          </>
+      ) : (
+          <>
+            <LogOut className="h-4 w-4 mr-2" />
+            Đăng xuất
+          </>
+      )}
     </Button>
   )
 }

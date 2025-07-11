@@ -112,6 +112,11 @@ export default function SettingsPage() {
     input.onchange = (e) => {
       const file = (e.target as HTMLInputElement).files?.[0]
       if (file) {
+        const maxSize = 2 * 1024 * 1024 // 2MB
+        if (file.size > maxSize) {
+          alert("File quá lớn! Vui lòng chọn file nhỏ hơn 2MB.")
+          return
+        }
         const reader = new FileReader()
         reader.onload = (e) => {
           try {
